@@ -170,7 +170,7 @@ def check_people(image,bboxes,classes=read_class_names(cfg.YOLO.CLASSES)):
             mid_y = int((coor1[0] + coor1[2]) // 2)
             mid_x = int((coor1[1] + coor1[3]) // 2)
 
-            cv2.circle(image, (mid_x, mid_y), 5, (0, 255, 0), -1)
+            # cv2.circle(image, (mid_x, mid_y), 5, (0, 255, 0), -1)
 
             mid_ly = (coor1[2]-mid_y)//2
             mid_lx = (coor1[3]-mid_x)//2
@@ -179,9 +179,11 @@ def check_people(image,bboxes,classes=read_class_names(cfg.YOLO.CLASSES)):
             coor1[2] = int(coor1[2] + mid_ly)
             coor1[1] = int(coor1[1] - mid_lx)
             coor1[3] = int(coor1[3] + mid_lx)
-
-            cv2.circle(image, (coor1[1] , coor1[0]), 5, (0, 255, 255), -1)
-
+            fontScale = 0.5
+            # cv2.circle(image, (coor1[1] , coor1[0]), 5, (0, 255, 255), -1)
+            cv2.putText(image, "Table", (coor1[1], np.float32(coor1[0])), cv2.FONT_HERSHEY_SIMPLEX,
+                        fontScale, (0, 255, 255), 1, lineType=cv2.LINE_AA)
+            cv2.rectangle(image, (np.float32(coor1[1]), np.float32(coor1[0])), (np.float32(coor1[3]), np.float32(coor1[2])), (0, 255, 255), 1 )
             table_spot.append([[coor1[1], coor1[0]], [coor1[3], coor1[2]]])
 
     #사이즈 체크
@@ -277,8 +279,8 @@ def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_la
             for i in range(len(check_table)):
                 if class_ind == table and check_table[i]>=1:
                     cv2.rectangle(image, table_spot_list[i][0][0],table_spot_list[i][0][1], (0,0,255), bbox_thick)
-                elif class_ind == table:
-                    cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
+                # elif class_ind == table:
+                #     cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
 
             if class_ind == Human:
                 cv2.rectangle(image, c1, c2, bbox_color, bbox_thick)
@@ -292,11 +294,11 @@ def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_la
                     cv2.rectangle(image, c1, (np.float32(c3[0]), np.float32(c3[1])), bbox_color, -1)  # filled
                     cv2.putText(image, bbox_mess, (c1[0], np.float32(c1[1] - 2)), cv2.FONT_HERSHEY_SIMPLEX,
                                 fontScale, (0, 0, 0), bbox_thick // 2, lineType=cv2.LINE_AA)
-                elif class_ind == table:
-                    num_table +=1
-                    cv2.rectangle(image, c1, (np.float32(c3[0]), np.float32(c3[1])), bbox_color, -1)  # filled
-                    cv2.putText(image, classes[class_ind]+str(num_table), (c1[0], np.float32(c1[1] - 2)), cv2.FONT_HERSHEY_SIMPLEX,
-                                fontScale, (0, 0, 0), bbox_thick // 2, lineType=cv2.LINE_AA)
+                # elif class_ind == table:
+                #     num_table +=1
+                #     cv2.rectangle(image, c1, (np.float32(c3[0]), np.float32(c3[1])), bbox_color, -1)  # filled
+                #     cv2.putText(image, classes[class_ind]+str(num_table), (c1[0], np.float32(c1[1] - 2)), cv2.FONT_HERSHEY_SIMPLEX,
+                #                 fontScale, (0, 0, 0), bbox_thick // 2, lineType=cv2.LINE_AA)
     except:
         for i in range(num_boxes[0]):
             coor = out_boxes[0][i]
