@@ -12,7 +12,7 @@ model = load_model('mask_model.h5')
 no_stable = 0
 yes_stable = 0
 
-# open webcam
+# 웹캠 오픈
 webcam = cv2.VideoCapture(0)
 
 if not webcam.isOpened():

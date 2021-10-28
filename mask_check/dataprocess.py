@@ -27,7 +27,7 @@ while webcam.isOpened():
     print(face)
     print(confidence)
 
-    # loop through detected faces
+    # 얼굴 바운딩 박스 저장
     for idx, f in enumerate(face):
 
         (startX, startY) = f[0], f[1]
@@ -40,7 +40,7 @@ while webcam.isOpened():
             cv2.imwrite('./mask/face' + str(captured_num) + '.jpg', face_in_img)  # 마스크 미착용 데이터 수집시 주석처리
             # cv2.imwrite('./nomask/face'+str(captured_num)+'.jpg', face_in_img) # 마스크 미착용 데이터 수집시 주석해제
 
-    # display output
+    # 화면 출력
     cv2.imshow("captured frames", frame)
 
     # press "Q" to stop
