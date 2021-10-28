@@ -169,6 +169,7 @@ def drawBoundingBoxes(image, results, hand_status, padd_amount=10, draw=True, di
         # Initialize a variable to store the label of the hand.
         label = "Unknown"
         # Check if the hand we are iterating upon is the right one.
+        # 오른손 좌표 저장
         if hand_status['Right_index'] == hand_index:
 
             x1_r = int(np.min(x_coordinates) - padd_amount)
@@ -179,8 +180,11 @@ def drawBoundingBoxes(image, results, hand_status, padd_amount=10, draw=True, di
             # Update the label and store the landmarks of the hand in the dictionary.
             label = 'Right Hand'
             output_landmarks['Right'] = landmarks
+
+            # 왼손 있다고 저장
             two_hand[0] = 1
         # Check if the hand we are iterating upon is the left one.
+        # 왼손 좌표저장
         elif hand_status['Left_index'] == hand_index:
 
             x1_l = int(np.min(x_coordinates) - padd_amount)
