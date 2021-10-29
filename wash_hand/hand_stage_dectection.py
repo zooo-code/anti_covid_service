@@ -64,34 +64,34 @@ def detectHandsLandmarks(image, hands, display=True):
     # Perform the Hands Landmarks Detection.
     results = hands.process(imgRGB)
 
-    # Check if landmarks are found.
-    if results.multi_hand_landmarks:
-        pass
-        # Iterate over the found hands.
-        # for hand_landmarks in results.multi_hand_landmarks:
-        #     # Draw the hand landmarks on the copy of the input image.
-        #     mp_drawing.draw_landmarks(image=output_image, landmark_list=hand_landmarks,
-        #                               connections=mp_hands.HAND_CONNECTIONS)
+    # # Check if landmarks are found.
+    # if results.multi_hand_landmarks:
+    #     pass
+    #     # Iterate over the found hands.
+    #     # for hand_landmarks in results.multi_hand_landmarks:
+    #     #     # Draw the hand landmarks on the copy of the input image.
+    #     #     mp_drawing.draw_landmarks(image=output_image, landmark_list=hand_landmarks,
+    #     #                               connections=mp_hands.HAND_CONNECTIONS)
 
             # Check if the original input image and the output image are specified to be displayed.
-    if display:
-
-        # Display the original input image and the output image.
-        # plt.figure(figsize=[15, 15])
-        # plt.subplot(121);
-        # plt.imshow(image[:, :, ::-1]);
-        plt.title("Original Image");
-        plt.axis('off');
-        plt.subplot(122);
-        plt.imshow(output_image[:, :, ::-1]);
-        plt.title("Output");
-        plt.axis('off');
-
-    # Otherwise
-    else:
+    # if display:
+    #
+    #     # Display the original input image and the output image.
+    #     # plt.figure(figsize=[15, 15])
+    #     # plt.subplot(121);
+    #     # plt.imshow(image[:, :, ::-1]);
+    #     plt.title("Original Image");
+    #     plt.axis('off');
+    #     plt.subplot(122);
+    #     plt.imshow(output_image[:, :, ::-1]);
+    #     plt.title("Output");
+    #     plt.axis('off');
+    #
+    # # Otherwise
+    # else:
 
         # Return the output image and results of hands landmarks detection.
-        return output_image, results
+    return output_image, results
 
 
 def detectHandsLandmarks(image, hands, display=True):
@@ -205,7 +205,7 @@ def drawBoundingBoxes(image, results, hand_status, padd_amount=10, draw=True, di
     #
     # 손 바운딩 박스 그리기
     if two_hand[0] == 1 and two_hand[1] == 1:
-        print("two")
+
         if y1_r <= y1_l:
             two_hand_bbox_y1 = y1_r
         else:
@@ -261,9 +261,10 @@ def drawBoundingBoxes(image, results, hand_status, padd_amount=10, draw=True, di
         # Return the output image and the landmarks dictionary.
         return output_image, output_landmarks, hand_box
 
+# 모델 로드
 model1 = load_model('./model/stage1.h5')
 model2 = load_model('./model/stage2.h5')
-# model3 = load_model('./model/stage3_total.h5')
+model3 = load_model('./model/stage3_total.h5')
 model3_l = load_model('./model/stage3_r.h5')
 model3_r = load_model('./model/stage3_l.h5')
 model4_r = load_model('./model/stage4_r.h5')
@@ -282,24 +283,56 @@ if not cap.isOpened():
 stage_progress=[0]*5
 stage_list = []
 stage_count_list = [0]*5
+not_detect_hand_time = []
 
-pre_time1 =time.time()
+
 while cap.isOpened():
     ret, img = cap.read()
+
     if ret:
 
         frame = cv2.flip(img, 1)
         frame, results = detectHandsLandmarks(frame, hands_video, display=False)
-        if not results.multi_hand_landmarks and :
-            cur_time1 = time.time()
-            print("progress1",stage_progress)
-            if (cur_time1-pre_time1)>3:
-                stage_progress = [0]*5
-                pre_time1 = cur_time1
-                print("progress2", stage_progress)
+        if stage_progress[1] > 5:
+            cv2.putText(frame, "stage1 clear", (75, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        else:
+            cv2.putText(frame, "stage1 "+str(stage_progress[1]), (75, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255),2)
+        if stage_progress[2] > 5:
+            cv2.putText(frame, "stage2 clear", (75, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        else:
+            cv2.putText(frame, "stage2 "+str(stage_progress[2]), (75, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255),2)
+        if stage_progress[3] > 5:
+            cv2.putText(frame, "stage3 clear", (75, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        else:
+            cv2.putText(frame, "stage3 "+str(stage_progress[3]) , (75, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.7,(0, 0, 255), 2)
 
+        if stage_progress[4] > 5:
+            cv2.putText(frame, "stage4 clear", (75, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        else:
+            cv2.putText(frame, "stage4 "+str(stage_progress[4]), (75, 125), cv2.FONT_HERSHEY_SIMPLEX, 0.7,(0, 0, 255), 2)
+
+        # 인식되는 손이 3초 이상 지속 되었을 때 기록 초기화
+        if not results.multi_hand_landmarks:
+
+            not_detect_hand = round(time.time())
+            if len(not_detect_hand_time) == 0 :
+                not_detect_hand_time.append(not_detect_hand)
+
+            elif  len(not_detect_hand_time) != 0 and not_detect_hand_time[-1] != not_detect_hand:
+                not_detect_hand_time.append(not_detect_hand)
+                # 5초 이상 지속되면 리스트 삭제
+                if not_detect_hand_time[-1] - not_detect_hand_time[0] >=4:
+                    not_detect_hand_time = []
+                    stage_progress = [0] * 5
+
+
+
+        print("stage_progress",stage_progress)
+        print("not_detect_hand_list",not_detect_hand_time)
         if results.multi_hand_landmarks:
-            pre_time = time.time()
+            # 손 인식 되었을 때 초기화
+            not_detect_hand_time = []
+
             # Perform hand(s) type (left or right) classification.
             _, hands_status = getHandType(frame.copy(), results, draw=False, display=False)
 
@@ -321,7 +354,7 @@ while cap.isOpened():
             prediction1 = model1.predict(x)
             prediction2 = model2.predict(x)
             # # 3단계 중 큰 값 사용
-            # prediction3 = model3.predict(x)
+
             prediction3_r = model3_r.predict(x)
             prediction3_l = model3_l.predict(x)
             prediction3=max(prediction3_r,prediction3_l)
@@ -333,15 +366,8 @@ while cap.isOpened():
             prediction_list = [prediction1, prediction2, prediction3, prediction4]
 
             predict = max(prediction_list)
-            # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-            # print("prediction1", prediction1)
-            # print("prediction2", prediction2)
-            # print("prediction3", prediction3)
-            # print("prediction3_r", prediction3_r)
-            # print("prediction3_l", prediction3_l)
-            # print("prediction4_r", prediction4_r)
-            # print("prediction4_l", prediction4_l)
-            # # 예측이 0.6 이하이면 버리고 이상이면 리스트에 저장
+
+            # 예측이 0.6 이하이면 버리고 이상이면 리스트에 저장
 
             cv2.rectangle(frame, (startX, startY), (endX, endY), (255, 0, 0), 3, cv2.LINE_8)
             if predict < 0.5:
@@ -361,14 +387,8 @@ while cap.isOpened():
                     if max_count == stage_count_list[i]:
                         stage_progress[i] += 1
                 stage_list = []
-            print(stage_progress)
-
-            # print("stage_list", stage_list)
 
 
-
-            cur_time = time.time()
-            frame_time = cur_time-pre_time
             # print("frame_time",frame_time)
         cv2.imshow("img", frame)
         # cv2.imshow("img_result", img_result)
