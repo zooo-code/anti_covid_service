@@ -3,6 +3,17 @@
 ![캡처3](https://user-images.githubusercontent.com/75787789/139059681-22558ef9-c8c6-4dab-a48c-a2c687e97c78.JPG)
 ![캡처4](https://user-images.githubusercontent.com/75787789/139059686-870be5cf-b00f-46fb-bd59-142ac5a575e4.JPG)
 ![캡처5](https://user-images.githubusercontent.com/75787789/139059698-b6474d12-1ec7-4d84-952c-2c26a306ae3b.JPG)
+
+
+![1](https://user-images.githubusercontent.com/75787789/139541038-eb7d57c3-bf30-4976-b654-e07415ce61d2.JPG)
+![2](https://user-images.githubusercontent.com/75787789/139541039-95349845-89eb-469a-bc17-1dc49b4781bc.JPG)
+![3](https://user-images.githubusercontent.com/75787789/139541040-d15db9e9-f7c5-4cef-a0fe-dffb83bde1d9.JPG)
+![4](https://user-images.githubusercontent.com/75787789/139541041-f1fae6fe-9354-4898-bafa-4feee3dd0f87.JPG)
+![5](https://user-images.githubusercontent.com/75787789/139541043-eaacaeef-2fd4-4778-b3c0-25f16a3b1669.JPG)
+![6](https://user-images.githubusercontent.com/75787789/139541044-58daa6c9-09b9-402f-b4c6-87aab1067bdf.JPG)
+![8](https://user-images.githubusercontent.com/75787789/139541046-41e14c59-1939-49b1-9d3d-bf2a98537a96.JPG)
+![9](https://user-images.githubusercontent.com/75787789/139541047-3d4bcef8-2447-4b67-b059-79ba56b9e817.JPG)
+
 ![stage3_r_ep10_ba50_acc](https://user-images.githubusercontent.com/75787789/139059761-44614872-4a67-4481-a71b-ef3b3d220852.png)
 ![stage3_r_ep10_ba50_loss](https://user-images.githubusercontent.com/75787789/139059765-be8d02ca-a1cd-4e48-8ee6-6f92e13e3f84.png)
 ![stage3_total_ep10_ba50_acc](https://user-images.githubusercontent.com/75787789/139059768-20088922-2832-4eb8-8813-2ab37d94edc8.png)
