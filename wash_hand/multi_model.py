@@ -23,17 +23,20 @@ path_dir2 = './hand_learn/4/false4/'
 
 file_list1 = os.listdir(path_dir1)  # path에 존재하는 파일 목록 가져오기
 file_list2 = os.listdir(path_dir2)
-
+# 파일의 길이 수
 file_list1_num = len(file_list1)
 file_list2_num = len(file_list2)
 
+# 두 파일의 합
 file_num = file_list1_num + file_list2_num
 
 # %% 이미지 전처리
 num = 0;
+# 모든 이미지를 224*224*3 크기만듬
 all_img = np.float32(np.zeros((file_num, 224, 224, 3)))
+# 라벨 1차원
 all_label = np.float64(np.zeros((file_num, 1)))
-
+# 이미지를 전처리 및 배열로 변환
 for img_name in file_list1:
     img_path = path_dir1 + img_name
     img = load_img(img_path, target_size=(224, 224))
