@@ -1,3 +1,15 @@
+
+![logo_horizontal_color](https://user-images.githubusercontent.com/75787789/139797835-db6f37f0-25d1-417c-a632-0718f8442bb5.png)
+![keras-logo-2018-large-1200](https://user-images.githubusercontent.com/75787789/139797972-c66da61f-9d76-4e05-9fcf-16f190513a4c.png)
+
+# 미디어 파이프 
+바운딩 박스 참고
+https://bleedai.com/real-time-3d-hands-landmarks-detection-hands-classification-with-mediapipe-and-python/
+
+
+
+
+
 ![캡처1](https://user-images.githubusercontent.com/75787789/139059670-dcc49d20-23d7-4a0c-acfc-4b6d59cd42ac.JPG)
 ![캡처2](https://user-images.githubusercontent.com/75787789/139059676-319b0dbd-5dea-4338-8401-64a88cea3cc5.JPG)
 ![캡처3](https://user-images.githubusercontent.com/75787789/139059681-22558ef9-c8c6-4dab-a48c-a2c687e97c78.JPG)
