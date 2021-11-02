@@ -125,7 +125,7 @@ def image_preprocess(image, target_size, gt_boxes=None):
         gt_boxes[:, [1, 3]] = gt_boxes[:, [1, 3]] * scale + dh
         return image_paded, gt_boxes
 
-
+#  사람들 인원 수 체크
 def check_people(image,bboxes,classes=read_class_names(cfg.YOLO.CLASSES)):
 
     num_classes = len(classes)
@@ -180,9 +180,10 @@ def check_people(image,bboxes,classes=read_class_names(cfg.YOLO.CLASSES)):
             coor1[1] = int(coor1[1] - mid_lx)
             coor1[3] = int(coor1[3] + mid_lx)
             fontScale = 0.5
-            # cv2.circle(image, (coor1[1] , coor1[0]), 5, (0, 255, 255), -1)
+            # 테이블 텍스트
             cv2.putText(image, "Table", (coor1[1], np.float32(coor1[0])), cv2.FONT_HERSHEY_SIMPLEX,
                         fontScale, (0, 255, 255), 1, lineType=cv2.LINE_AA)
+            # 테이블 박스 그리기
             cv2.rectangle(image, (np.float32(coor1[1]), np.float32(coor1[0])), (np.float32(coor1[3]), np.float32(coor1[2])), (0, 255, 255), 1 )
             table_spot.append([[coor1[1], coor1[0]], [coor1[3], coor1[2]]])
 
@@ -190,20 +191,20 @@ def check_people(image,bboxes,classes=read_class_names(cfg.YOLO.CLASSES)):
     # print("people_bbox_size_list1", people_bbox_size_list)
     # print("people_mid_spot1", people_mid_spot)
     try:
+        # 사람 있을 때만
         m_size = sum(people_bbox_size_list) // len(people_bbox_size_list)
         for i in range(len(people_bbox_size_list)):
             if (m_size//10) > people_bbox_size_list[i]:
                 people_bbox_size_list[i] = 0
                 people_mid_spot[i] = 0
-        # print("people_bbox_size_list2", people_bbox_size_list)
-        # print("people_mid_spot2", people_mid_spot)
+
         while 0 in people_bbox_size_list:
             people_bbox_size_list.remove(0)
         while 0 in people_mid_spot:
             people_mid_spot.remove(0)
-        # print("people_bbox_size_list3",people_bbox_size_list)
-        # print("people_mid_spot3",people_mid_spot)
 
+
+        # 모든 사람들의 중심에 빨간색 동그라미 넣기
         for i in range(len(people_mid_spot)):
             cv2.circle(image, (people_mid_spot[i][0],people_mid_spot[i][1]), 5, (255, 0, 0), -1)
     except:
@@ -229,33 +230,38 @@ def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_la
     # numbox 박스의 수
     # out classes 클래스의 종류
 
-
     people_mid_spot_list , table_spot_list = check_people(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES))
     # print("people_mid_spot_list",people_mid_spot_list)
     # print("table_spot_list",table_spot_list)
 
     try:
+        # 테이블 수 파악
         check_table = [0]*len(table_spot_list)
+        # 테이블 수만큼 리스트 생성
         violate_table = [0]*len(table_spot_list)
+
+        # 이중 for 문을 돌면서 테이블 인원 수 파악
         for people_mid_spot in people_mid_spot_list:
             for j in range(len(table_spot_list)):
                 if people_mid_spot[0] >= table_spot_list[j][0][0] and people_mid_spot[1] >=table_spot_list[j][0][1] and people_mid_spot[0]<= table_spot_list[j][1][0] and people_mid_spot[1] <=table_spot_list[j][1][1]:
                     check_table[j] +=1
 
         print("check_table",check_table)
-
+        # 모든 리스트를 돌면서 위반한 테이블 파악
         for i in range(len(check_table)):
+            # 테이블 인원 수 설정하는 곳
             if check_table[i] >= 1:
                 print(i+1,"번째 테이블 규칙위반입니다.")
                 violate_table[i]="V"
 
         N=0
         print("vio", violate_table)
+        # 위반 테이블 v로 표시
         for i in range(len(violate_table)):
             if violate_table[i]=="V":
                 N+=20
                 print("i",i)
-
+                # 몇번째 테이블 택스트로 표시
                 cv2.putText(image, "Violate Table", (50, 40), cv2.FONT_HERSHEY_SIMPLEX,
                             0.5, (255, 0, 0), 2, lineType=cv2.LINE_AA)
                 cv2.putText(image, "."+str(i+1), (150+N, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2, lineType=cv2.LINE_AA)
