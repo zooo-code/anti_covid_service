@@ -8,7 +8,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from matplotlib import pyplot as plt
 import pandas as pd
 
-
+# 콜백 함수
 # class CustomCallback(tf.keras.callbacks.Callback):
 #
 #
@@ -106,6 +106,7 @@ base_learning_rate = 0.001
 
 from keras import backend as K
 
+# 성능 지표 함수
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
@@ -128,10 +129,10 @@ def f1_m(y_true, y_pred):
 #               loss='binary_crossentropy',
 #               metrics=['accuracy'])
 
-# recall f1 등 추가 한 지표
+# recall f1 precision_m 추가 한 지표, 학습을 목적으로 모델을 구성
 model.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),
               loss='binary_crossentropy',
-              metrics=['accuracy',f1_m,precision_m, recall_m])
+              metrics=['accuracy',f1_m, precision_m, recall_m])
 
 model.summary()
 
@@ -142,29 +143,6 @@ history.history.keys()
 
 # save model
 model.save("mask_model1103.h5")
-
-
-# def vis(history, name):
-#     plt.title(f"{name.upper()}")
-#     plt.xlabel('epochs')
-#     plt.ylabel(f"{name.lower()}")
-#     value = history.history.get(name)
-#     val_value = history.history.get(f"val_{name}", None)
-#     epochs = range(1, len(value) + 1)
-#     plt.plot(epochs, value, 'b-', label=f'training {name}')
-#     if val_value is not None:
-#         plt.plot(epochs, val_value, 'r:', label=f'validation {name}')
-#     plt.legend(loc='upper center', bbox_to_anchor=(0.05, 1.2), fontsize=10, ncol=1)
-#
-#
-# def plot_history(history):
-#     key_value = list(set([i.split("val_")[-1] for i in list(history.history.keys())]))
-#     plt.figure(figsize=(12, 4))
-#     for idx, key in enumerate(key_value):
-#         plt.subplot(1, len(key_value), idx + 1)
-#         vis(history, key)
-#     plt.tight_layout()
-#     plt.show()
 
 # acc
 acc = history.history['accuracy']
@@ -200,6 +178,8 @@ print(data_frame)
 # print('loss: {:.3f}, accuracy: {:.3f}, precision: {:.3f}, recall: {:.3f}, f1score: {:.3f}'.format(_loss, _acc, _precision, _recall, _f1score))
 
 
+
+# 그래프 그리기
 
 plt.plot(epochs, acc, 'r', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='testing acc')
