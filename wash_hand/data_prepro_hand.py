@@ -244,6 +244,7 @@ def drawBoundingBoxes(image, results, hand_status, padd_amount=10, draw=True, di
         # Return the output image and the landmarks dictionary.
         return output_image, output_landmarks ,hand_box
 
+# 영상 이미지 클리핑 하는곳
 
 camera_video = cv2.VideoCapture("./video/s.MOV")
 hands_video = mp_hands.Hands(static_image_mode=False, max_num_hands=2,
@@ -251,11 +252,13 @@ hands_video = mp_hands.Hands(static_image_mode=False, max_num_hands=2,
 sample_num = 0
 captured_num = 0
 
+
 # Iterate until the webcam is accessed successfully.
 while camera_video.isOpened():
 
     # Read a frame.
     ok, frame = camera_video.read()
+    # 샘플 번호 메기기
     sample_num = sample_num + 1
 
     # Check if frame is not read properly then continue to the next iteration to read the next frame.
@@ -268,24 +271,27 @@ while camera_video.isOpened():
     # Perform Hands landmarks detection.
     frame, results = detectHandsLandmarks(frame, hands_video, display=False)
 
-    # Check if landmarks are found in the frame.
+    # 만약에 손이 검출 된다면 if 문이 시작된다.
     if results.multi_hand_landmarks:
         # Perform hand(s) type (left or right) classification.
         _, hands_status = getHandType(frame.copy(), results, draw=False, display=False)
 
-        # Draw bounding boxes around the detected hands and write their classified types near them.
+        # 바운딩 박스를 그리고 바운딩 박스의 좌표를 얻어넨다.
         frame, _ , hand_box= drawBoundingBoxes(frame, results, hands_status, display=False)
-
+        # 인식된 바운딩 박스의 일정 범위를 증가 시키며 박스를 생성한다.
         (startX, startY) = int(hand_box[0][0]*0.85), int(hand_box[0][1]*0.85)
         (endX, endY) = int(hand_box[1][0]*1.15),int(hand_box[1][1]*1.15)
 
+        # 샘플의 주기가 2로 나누어질때만 이미지를 캡쳐한다.
         if sample_num % 2 == 0:
-
             captured_num = captured_num + 1
+
+            # 가끔 예외로 인해 오류처리가 일어난다. 이부분은 나중에 개선해야할 점이다. 아마 바운딩 박스의 범위가 이미지 밖으로 나가는 것 때문일것이다.
+            # 실제 인식 모듈에서는 이문제 해결
             try:
                 hand_in_img = frame[startY:endY, startX:endX, :]
-
                 cv2.imshow("hand_in_img",hand_in_img)
+                # 이미지 저장 
                 cv2.imwrite('./hand1/hands_self' + str(captured_num) + '.jpg', hand_in_img)
             except:
                 pass
