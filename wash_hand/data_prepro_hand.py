@@ -1,5 +1,4 @@
 # Initialize the VideoCapture object to read from the webcam.
-
 import cv2
 import numpy as np
 import mediapipe as mp
@@ -73,17 +72,17 @@ def detectHandsLandmarks(image, hands, display=True):
 
             # Check if the original input image and the output image are specified to be displayed.
     if display:
-
+        pass
         # Display the original input image and the output image.
         # plt.figure(figsize=[15, 15])
         # plt.subplot(121);
         # plt.imshow(image[:, :, ::-1]);
-        plt.title("Original Image");
-        plt.axis('off');
-        plt.subplot(122);
-        plt.imshow(output_image[:, :, ::-1]);
-        plt.title("Output");
-        plt.axis('off');
+        # plt.title("Original Image");
+        # plt.axis('off');
+        # plt.subplot(122);
+        # plt.imshow(output_image[:, :, ::-1]);
+        # plt.title("Output");
+        # plt.axis('off');
 
     # Otherwise
     else:
