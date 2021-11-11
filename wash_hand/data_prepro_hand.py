@@ -291,7 +291,7 @@ while camera_video.isOpened():
             try:
                 hand_in_img = frame[startY:endY, startX:endX, :]
                 cv2.imshow("hand_in_img",hand_in_img)
-                # 이미지 저장 
+                # 이미지 저장
                 cv2.imwrite('./hand1/hands_self' + str(captured_num) + '.jpg', hand_in_img)
             except:
                 pass
