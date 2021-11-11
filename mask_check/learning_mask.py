@@ -41,9 +41,11 @@ all_label = np.float64(np.zeros((file_num, 1)))
 
 for img_name in file_list1:
     img_path = path_dir1 + img_name
+    # 이미지 로드
     img = load_img(img_path, target_size=(224, 224))
-
+    # 이미지 배열로 변환
     x = img_to_array(img)
+    # 3차원의 array에 이미지 샘플을 구분할 수 있도록 1개 차원을 추가
     x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
     all_img[num, :, :, :] = x
@@ -200,40 +202,40 @@ plt.ylabel('loss')
 plt.ylim([0, 0.07])     # Y축의 범위: [ymin, ymax]
 plt.legend()
 plt.figure()
-#
-#
-# # f1 스코어
-# plt.plot(epochs, f1_m, 'r', label='Training f1_m')
-# plt.plot(epochs, val_f1_m, 'b', label='testing f1_m')
-# plt.title('Training and testing f1_m')
-# plt.xlabel('epochs')
-# plt.ylabel('f1_m')
-# # plt.xlim([0, 10])      # X축의 범위: [xmin, xmax]
-# # plt.ylim([0.945, 1])     # Y축의 범위: [ymin, ymax]
-# plt.legend()
-# plt.figure()
-#
-# #precision_m
-# plt.plot(epochs, precision_m, 'r', label='Training precision_m')
-# plt.plot(epochs, val_precision_m, 'b', label='testing precision_m')
-# plt.title('Training and testing precision_m')
-# plt.xlabel('epochs')
-# plt.ylabel('precision_m')
-# # plt.xlim([0, 10])      # X축의 범위: [xmin, xmax]
-# # plt.ylim([0, 0.055])     # Y축의 범위: [ymin, ymax]
-# plt.legend()
-# plt.figure()
-#
-# # recall_m
-# plt.plot(epochs, recall_m, 'r', label='Training recall_m')
-# plt.plot(epochs, val_recall_m, 'b', label='testing recall_m')
-# plt.title('Training and testing recall_m')
-# plt.xlabel('epochs')
-# plt.ylabel('recall_m')
-# # plt.xlim([0, 10])      # X축의 범위: [xmin, xmax]
-# # plt.ylim([0.945, 1])     # Y축의 범위: [ymin, ymax]
-# plt.legend()
-# plt.figure()
+
+
+# f1 스코어
+plt.plot(epochs, f1_m, 'r', label='Training f1_m')
+plt.plot(epochs, val_f1_m, 'b', label='testing f1_m')
+plt.title('Training and testing f1_m')
+plt.xlabel('epochs')
+plt.ylabel('f1_m')
+# plt.xlim([0, 10])      # X축의 범위: [xmin, xmax]
+# plt.ylim([0.945, 1])     # Y축의 범위: [ymin, ymax]
+plt.legend()
+plt.figure()
+
+#precision_m
+plt.plot(epochs, precision_m, 'r', label='Training precision_m')
+plt.plot(epochs, val_precision_m, 'b', label='testing precision_m')
+plt.title('Training and testing precision_m')
+plt.xlabel('epochs')
+plt.ylabel('precision_m')
+# plt.xlim([0, 10])      # X축의 범위: [xmin, xmax]
+# plt.ylim([0, 0.055])     # Y축의 범위: [ymin, ymax]
+plt.legend()
+plt.figure()
+
+# recall_m
+plt.plot(epochs, recall_m, 'r', label='Training recall_m')
+plt.plot(epochs, val_recall_m, 'b', label='testing recall_m')
+plt.title('Training and testing recall_m')
+plt.xlabel('epochs')
+plt.ylabel('recall_m')
+# plt.xlim([0, 10])      # X축의 범위: [xmin, xmax]
+# plt.ylim([0.945, 1])     # Y축의 범위: [ymin, ymax]
+plt.legend()
+plt.figure()
 #
 plt.show()
 
