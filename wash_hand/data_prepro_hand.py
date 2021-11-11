@@ -106,11 +106,6 @@ def detectHandsLandmarks(image, hands, display=True):
     # Check if landmarks are found.
     if results.multi_hand_landmarks:
         pass
-        # Iterate over the found hands.
-        # for hand_landmarks in results.multi_hand_landmarks:
-            # Draw the hand landmarks on the copy of the input image.
-            # mp_drawing.draw_landmarks(image=output_image, landmark_list=hand_landmarks, connections=mp_hands.HAND_CONNECTIONS)
-            # Check if the original input image and the output image are specified to be displayed.
     if display:
         # Display the original input image and the output image.
         plt.figure(figsize=[15, 15])
@@ -169,6 +164,7 @@ def drawBoundingBoxes(image, results, hand_status, padd_amount=10, draw=True, di
         # Initialize a variable to store the label of the hand.
         label = "Unknown"
         # Check if the hand we are iterating upon is the right one.
+
         # 오른손 좌표 저장
         if hand_status['Right_index'] == hand_index:
 

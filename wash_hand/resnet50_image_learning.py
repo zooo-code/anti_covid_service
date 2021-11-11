@@ -119,7 +119,7 @@ base_model = ResNet50(input_shape=IMG_SHAPE, weights='imagenet', include_top=Fal
 base_model.trainable = False
 base_model.summary()
 print("Number of layers in the base model: ", len(base_model.layers))
-
+# 마지막층 softmax 함수
 flatten_layer = Flatten()
 dense_layer1 = Dense(128, activation='relu')
 bn_layer1 = BatchNormalization()
